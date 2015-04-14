@@ -15,12 +15,12 @@ class SatSMS_Setting_Options {
         $this->settings_api = new WeDevs_Settings_API;
 
         add_action( 'admin_init', array($this, 'admin_init') );
-        add_action( 'admin_menu', array($this, 'admin_menu') ); 
+        add_action( 'admin_menu', array($this, 'admin_menu') );
     }
 
     /**
      * Admin init hook
-     * @return void 
+     * @return void
      */
     function admin_init() {
 
@@ -34,7 +34,7 @@ class SatSMS_Setting_Options {
 
     /**
      * Admin Menu CB
-     * @return void 
+     * @return void
      */
     function admin_menu() {
         add_menu_page( __( 'SMS Settings', 'satosms' ), __( 'SMS Settings', 'satosms' ), 'manage_options', 'sat-order-sms-notification-settings', array( $this, 'plugin_page' ), 'dashicons-email-alt' );
@@ -43,13 +43,13 @@ class SatSMS_Setting_Options {
 
     /**
      * Send SMS to any submenu callback
-     * @return void 
+     * @return void
      */
     function send_sms_to_any() {
         ?>
         <div class="wrap">
             <h1><?php _e( 'Send SMS to Any Number', 'satosms' ); ?></h1>
-            <div class="postbox send_sms_to_any_notice"> 
+            <div class="postbox send_sms_to_any_notice">
                 <p><?php _e( 'Make sure that the message recipient number must have country code as an extension with phone number ( e.g: the number format must be like this <code>+8801671123456</code>), where <code>+88</code> country code as an extension', 'satosms' ); ?></p>
             </div>
             <?php if( isset( $_GET['message'] ) && $_GET['message'] == 'error' ): ?>
@@ -95,19 +95,19 @@ class SatSMS_Setting_Options {
                         <p>
                             <?php wp_nonce_field( 'send_sms_to_any_action','send_sms_to_any_nonce' ); ?>
                             <input type="submit" class="button button-primary" name="satosms_send_sms" value="<?php _e( 'Send SMS', 'satosms' ); ?>">
-                        </p>         
+                        </p>
 
                     </form>
                 </div>
             </div>
-           
+
         </div>
         <?php
     }
 
     /**
      * Get All settings Field
-     * @return array 
+     * @return array
      */
     function get_settings_sections() {
         $sections = array(
@@ -135,9 +135,9 @@ class SatSMS_Setting_Options {
      */
     function get_settings_fields() {
 
-        
-        $buyer_message = "Thanks for purchasing\nYour [order_id] is now [order_status]\nThank you"; 
-        $admin_message = "You have a new Order\nThe [order_id] is now [order_status]\n";    
+
+        $buyer_message = "Thanks for purchasing\nYour [order_id] is now [order_status]\nThank you";
+        $admin_message = "You have a new Order\nThe [order_id] is now [order_status]\n";
         $settings_fields = array(
 
             'satosms_general' => apply_filters( 'satosms_general_settings', array(
@@ -268,16 +268,17 @@ class SatSMS_Setting_Options {
 
     /**
      * Get sms Gateway settings
-     * @return array 
+     * @return array
      */
     function get_sms_gateway() {
-        $gateway = array( 
+        $gateway = array(
             'none'      => __( '--select--', 'satosms' ),
             'talkwithtext' => __( 'Talk With Text', 'satosms' ),
             'twilio' => __( 'Twilio', 'satosms' ),
             'clickatell' => __( 'Clickatell', 'satosms' ),
             'nexmo' => __( 'Nexmo', 'satosms' ),
-            'smsglobal' => __( 'SMS global', 'satosms' )
+            'smsglobal' => __( 'SMS global', 'satosms' ),
+            'mvaayoo' => __( 'mVaayoo', 'satosms' )
         );
 
         return apply_filters( 'satosms_sms_gateway', $gateway );
@@ -287,33 +288,38 @@ class SatSMS_Setting_Options {
 
 /**
  * SMS Gateway Settings Extra panel options
- * @return void 
+ * @return void
  */
 function satosms_settings_field_gateway() {
 
-    $talkwithtext_username   = satosms_get_option( 'talkwithtext_username', 'satosms_gateway', '' ); 
-    $talkwithtext_password   = satosms_get_option( 'talkwithtext_password', 'satosms_gateway', '' ); 
-    $talkwithtext_originator = satosms_get_option( 'talkwithtext_originator', 'satosms_gateway', '' ); 
-    $twilio_from_number      = satosms_get_option( 'twilio_from_number', 'satosms_gateway', '' ); 
-    $twilio_sid              = satosms_get_option( 'twilio_sid', 'satosms_gateway', '' ); 
-    $twilio_token            = satosms_get_option( 'twilio_token', 'satosms_gateway', '' ); 
-    $clickatell_name         = satosms_get_option( 'clickatell_name', 'satosms_gateway', '' ); 
-    $clickatell_password     = satosms_get_option( 'clickatell_password', 'satosms_gateway', '' ); 
-    $clickatell_api          = satosms_get_option( 'clickatell_api', 'satosms_gateway', '' ); 
-    $nexmo_api               = satosms_get_option( 'nexmo_api', 'satosms_gateway', '' ); 
+    $talkwithtext_username   = satosms_get_option( 'talkwithtext_username', 'satosms_gateway', '' );
+    $talkwithtext_password   = satosms_get_option( 'talkwithtext_password', 'satosms_gateway', '' );
+    $talkwithtext_originator = satosms_get_option( 'talkwithtext_originator', 'satosms_gateway', '' );
+    $twilio_from_number      = satosms_get_option( 'twilio_from_number', 'satosms_gateway', '' );
+    $twilio_sid              = satosms_get_option( 'twilio_sid', 'satosms_gateway', '' );
+    $twilio_token            = satosms_get_option( 'twilio_token', 'satosms_gateway', '' );
+    $clickatell_name         = satosms_get_option( 'clickatell_name', 'satosms_gateway', '' );
+    $clickatell_password     = satosms_get_option( 'clickatell_password', 'satosms_gateway', '' );
+    $clickatell_api          = satosms_get_option( 'clickatell_api', 'satosms_gateway', '' );
+    $nexmo_api               = satosms_get_option( 'nexmo_api', 'satosms_gateway', '' );
     $nexmo_api_secret        = satosms_get_option( 'nexmo_api_secret', 'satosms_gateway', '' );
-    $nexmo_from_name         = satosms_get_option( 'nexmo_from_name', 'satosms_gateway', '' ); 
-    $smsglobal_name          = satosms_get_option( 'smsglobal_name', 'satosms_gateway', '' ); 
+    $nexmo_from_name         = satosms_get_option( 'nexmo_from_name', 'satosms_gateway', '' );
+    $smsglobal_name          = satosms_get_option( 'smsglobal_name', 'satosms_gateway', '' );
     $smsglobal_password      = satosms_get_option( 'smsglobal_password', 'satosms_gateway', '' );
-    $smsglobal_sender_no     = satosms_get_option( 'smsglobal_sender_no', 'satosms_gateway', '' ); 
+    $smsglobal_sender_no     = satosms_get_option( 'smsglobal_sender_no', 'satosms_gateway', '' );
+
+    $mvaayoo_user          = satosms_get_option( 'mvaayoo_user', 'satosms_gateway', '' );
+    $mvaayoo_password      = satosms_get_option( 'mvaayoo_password', 'satosms_gateway', '' );
+    $mvaayoo_sender_id     = satosms_get_option( 'mvaayoo_sender_id', 'satosms_gateway', '' );
 
     $twt_helper        = sprintf( 'Please fill talk with text username and password. If not then visit <a href="%s" target="_blank">%s</a>', 'http://my.talkwithtext.com/', 'Talk With Text' );
     $twilio_helper     = sprintf( 'Please fill Twilio informations. If not then go to <a href="%s" target="_blank">%s</a> and get your informations', 'https://www.twilio.com/login', 'Twilio');
     $clickatell_helper = sprintf( 'Please fill Clickatell informations. If not then go to <a href="%s" target="_blank">%s</a> and get your informations', 'https://www.clickatell.com/login/', 'Clickatell');
     $nexmo_helper      = sprintf( 'Please fill Nexmo informations. If not then go to <a href="%s" target="_blank">%s</a> and get your informations', 'https://dashboard.nexmo.com/login', 'Nexmo');
     $smsglobal_helper  = sprintf( 'Please fill SMSGlobal informations. If not then go to <a href="%s" target="_blank">%s</a> and get your informations', 'https://www.smsglobal.com/', 'SMSGlobal');
+    $mvaayoo_helper  = sprintf( 'Please fill MVaayoo informations. If not then go to <a href="%s" target="_blank">%s</a> and get your informations', 'https://http://www.mvaayoo.com/', 'MVaayoo');
     ?>
-    
+
     <?php do_action( 'satosms_gateway_settings_options_before' ); ?>
 
     <div class="talkwithtext_wrapper hide_class">
@@ -375,7 +381,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Twillo Authentication Token', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[twilio_token]" id="satosms_gateway[twilio_token]" value="<?php echo $twilio_token; ?>">
-                    <span><?php _e( 'Twilio AUTH Token', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Twilio AUTH Token', 'satosms' ); ?></span>
                 </td>
             </tr>
         </table>
@@ -392,7 +398,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Clickatell name', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[clickatell_name]" id="satosms_gateway[clickatell_name]" value="<?php echo $clickatell_name; ?>">
-                    <span><?php _e( 'Clickatell Username', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Clickatell Username', 'satosms' ); ?></span>
                 </td>
             </tr>
 
@@ -400,7 +406,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Clickatell Password', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[clickatell_password]" id="satosms_gateway[clickatell_password]" value="<?php echo $clickatell_password; ?>">
-                    <span><?php _e( 'Clickatell password', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Clickatell password', 'satosms' ); ?></span>
                 </td>
             </tr>
 
@@ -408,7 +414,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Clickatell api', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[clickatell_api]" id="satosms_gateway[clickatell_api]" value="<?php echo $clickatell_api; ?>">
-                    <span><?php _e( 'Clickatell API id', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Clickatell API id', 'satosms' ); ?></span>
                 </td>
             </tr>
         </table>
@@ -424,7 +430,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Nexmo API', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[nexmo_api]" id="satosms_gateway[nexmo_api]" value="<?php echo $nexmo_api; ?>">
-                    <span><?php _e( 'Nexmo API key', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Nexmo API key', 'satosms' ); ?></span>
                 </td>
             </tr>
 
@@ -432,7 +438,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Nexmo API Secret', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[nexmo_api_secret]" id="satosms_gateway[nexmo_api_secret]" value="<?php echo $nexmo_api_secret; ?>">
-                    <span><?php _e( 'Nexmo API secret', 'satosms' ); ?></span> 
+                    <span><?php _e( 'Nexmo API secret', 'satosms' ); ?></span>
                 </td>
             </tr>
 
@@ -440,7 +446,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'Nexmo From Name', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[nexmo_from_name]" id="satosms_gateway[nexmo_from_name]" value="<?php echo $nexmo_from_name; ?>">
-                    <span><?php _e( 'From which name the message will be sent to the users ( Default : NEXMO )', 'satosms' ); ?></span> 
+                    <span><?php _e( 'From which name the message will be sent to the users ( Default : NEXMO )', 'satosms' ); ?></span>
                 </td>
             </tr>
 
@@ -465,7 +471,7 @@ function satosms_settings_field_gateway() {
                 <th scrope="row"><?php _e( 'SMSGlobal Password', 'satosms' ) ?></th>
                 <td>
                     <input type="text" name="satosms_gateway[smsglobal_password]" id="satosms_gateway[smsglobal_password]" value="<?php echo $smsglobal_password; ?>">
-                    <span><?php _e( 'SMS Global password', 'satosms' ); ?></span> 
+                    <span><?php _e( 'SMS Global password', 'satosms' ); ?></span>
                 </td>
             </tr>
             <tr valign="top">
@@ -477,6 +483,38 @@ function satosms_settings_field_gateway() {
             </tr>
         </table>
     </div>
+
+    <div class="mvaayoo_wrapper hide_class">
+        <hr>
+        <p style="margin-top:15px; margin-bottom:0px; padding-left: 20px; font-style: italic; font-size: 14px;">
+            <strong><?php _e( $mvaayoo_helper, 'satosms' ); ?></strong>
+       </p>
+        <table class="form-table">
+            <tr valign="top">
+                <th scrope="row"><?php _e( 'MVaayoo User', 'satosms' ) ?></th>
+                <td>
+                    <input type="text" name="satosms_gateway[mvaayoo_user]" id="satosms_gateway[mvaayoo_user]" value="<?php echo $mvaayoo_user; ?>">
+                    <span><?php _e( 'MVaayoo User', 'satosms' ); ?></span>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scrope="row"><?php _e( 'MVaayoo Password', 'satosms' ) ?></th>
+                <td>
+                    <input type="text" name="satosms_gateway[mvaayoo_password]" id="satosms_gateway[mvaayoo_password]" value="<?php echo $mvaayoo_password; ?>">
+                    <span><?php _e( 'MVaayoo password', 'satosms' ); ?></span>
+                </td>
+            </tr>
+            <tr valign="top">
+                <th scrope="row"><?php _e( 'MVayoo Sender Id', 'satosms' ) ?></th>
+                <td>
+                    <input type="text" name="satosms_gateway[mvaayoo_sender_id]" id="satosms_gateway[mvaayoo_sender_id]" value="<?php echo $mvaayoo_sender_id; ?>">
+                    <span><?php _e( 'Sender ID', 'satosms' ) ?></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
     <?php do_action( 'satosms_gateway_settings_options_after' ) ?>
     <?php
 }
