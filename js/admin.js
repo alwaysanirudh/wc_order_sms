@@ -1,5 +1,5 @@
 ;(function($) {
-	
+
 	// Gateway select change event
 	$('.hide_class').hide();
 	$('#satosms_gateway\\[sms_gateway\\]').on( 'change', function() {
@@ -9,7 +9,7 @@
 		$('.'+value+'_wrapper').fadeIn();
 	});
 
-	// Trigger when a change occurs in gateway select box 
+	// Trigger when a change occurs in gateway select box
 	$('#satosms_gateway\\[sms_gateway\\]').trigger('change');
 
 	// handle send sms from order page in admin panale
@@ -46,7 +46,7 @@
 				block.hide();
 				self.attr( 'disabled', false );
 			} else {
-				$('div.satosms_send_sms_result').html( res.data.message ).show();	
+				$('div.satosms_send_sms_result').html( res.data.message ).show();
 				block.hide();
 				self.attr( 'disabled', false );
 			}
