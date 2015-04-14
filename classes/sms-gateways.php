@@ -18,9 +18,9 @@ class SatSMS_SMS_Gateways {
     }
 
     function talkwithtext( $sms_data ) {
-        $username = satosms_get_option( 'talkwithtext_username', 'satosms_gateway', '' ); 
-        $password = satosms_get_option( 'talkwithtext_password', 'satosms_gateway', '' ); 
-        $originator = satosms_get_option( 'talkwithtext_originator', 'satosms_gateway', '' ); 
+        $username = satosms_get_option( 'talkwithtext_username', 'satosms_gateway', '' );
+        $password = satosms_get_option( 'talkwithtext_password', 'satosms_gateway', '' );
+        $originator = satosms_get_option( 'talkwithtext_originator', 'satosms_gateway', '' );
         $admin_phone = str_replace( '+', '', $sms_data['number'] );
 
         if( empty( $username ) || empty( $password ) ) {
@@ -28,14 +28,14 @@ class SatSMS_SMS_Gateways {
         }
 
         require_once dirname( __FILE__ ) . '/../lib/sms.php';
-        $sol4mob_sms=   new sms();     
+        $sol4mob_sms=   new sms();
         $sol4mob_sms->username= $username;
         $sol4mob_sms->password= $password;
         $sol4mob_sms->originator= $originator;
-        $sol4mob_sms->msgtext= $sms_data['sms_body']; 
+        $sol4mob_sms->msgtext= $sms_data['sms_body'];
         $sol4mob_sms->phone= $admin_phone;
-        $response = $sol4mob_sms->send();  
-        
+        $response = $sol4mob_sms->send();
+
         if( $response == 'OK' ) {
             return true;
         } else {
@@ -158,11 +158,11 @@ class SatSMS_SMS_Gateways {
      * @return boolean
      */
     function twilio( $sms_data ) {
- 
+
         $sid = satosms_get_option( 'twilio_sid', 'satosms_gateway' );
         $token = satosms_get_option( 'twilio_token', 'satosms_gateway' );
         $from = satosms_get_option( 'twilio_from_number', 'satosms_gateway' );
-        
+
         require_once dirname( __FILE__ ) . '/../lib/twilio/Twilio.php';
 
         $client = new Services_Twilio( $sid, $token );
@@ -171,7 +171,7 @@ class SatSMS_SMS_Gateways {
             $message = $client->account->sms_messages->create(
                     $from, '+' . $sms_data['number'], $sms_data['sms_body']
             );
-            
+
             if ( $message->status != 'failed' ) {
                 return true;
             }
@@ -179,5 +179,35 @@ class SatSMS_SMS_Gateways {
             return false;
         }
     }
+
+    /**
+     * Sends SMS via MVaayoo api
+     *
+     * @param type $sms_data
+     * @return boolean
+     */
+    function mvaayoo( $sms_data ) {
+
+        $user = satosms_get_option( 'mvaayoo_user', 'satosms_gateway' );
+        $password = satosms_get_option( 'mvaayoo_password', 'satosms_gateway' );
+        $sender_id = satosms_get_option( 'mvaayoo_sender_id', 'satosms_gateway' );
+        $number = $sms_data['number'];
+        $sms_body = $sms_data['sms_body'];
+        $ch = curl_init();
+
+        $user = $user.':'.$password;
+        curl_setopt($ch,CURLOPT_URL,  "http://api.mVaayoo.com/mvaayooapi/MessageCompose");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, "user=$user&senderID=$sender_id&receipientno=$number&msgtxt=$sms_body");
+        $buffer = curl_exec($ch);
+        if(empty ($buffer))
+        { return false; }
+        else
+        { return true; }
+        curl_close($ch);
+
+    }
+
 
 }
